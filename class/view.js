@@ -1,7 +1,5 @@
 class View {
-    constructor(div_id) {
-      this.div_id = div_id;
-      this.p_tag;
+    constructor() {
       this.initView();
     }
 
@@ -11,48 +9,110 @@ class View {
     }
 
     initView () {
-      let div = document.querySelector(`#${this.div_id}`);
-      // this.p_tag = document.createElement('p');
-      // this.p_tag.innerHTML = 'Click to display a new Chuck Norris Fact.';
-      // let button = document.createElement('button');
-      // button.innerHTML = 'New Chuck Norris Fact';
-      // button.addEventListener('click', () => {
-      //   this.getCNF();
-      // });
-      // div.appendChild(this.p_tag);
-      // div.appendChild(button);
-      let token=40;
-      let space=20;
-      let col=7;
-      let ligne=6;
-      let width_tab= (col*(space  + token)) + space;
-      let height_tab= (ligne*(space + token)) + space;
-      let canvas = document.getElementById("mycanvas");
-      let context = canvas.getContext("2d");
 
+      this.token=40;
+      this.space=20;
+      this.col=7;
+      this.ligne=6;
+      this.width_tab= (this.col*(this.space  + this.token)) + this.space;
+      this.height_tab= (this.ligne*(this.space + this.token)) + this.space;
+      this.canvas = document.getElementById("mycanvas");
+      this.context = this.canvas.getContext("2d");
+
+
+
+
+      document.getElementById("title").innerHTML='CONNECT 4';
+
+
+      let checkAI=document.getElementById("check");
+      let divcheck= document.createElement("div");
+      let check=document.createElement("input");
+      check.type="checkbox";
+      check.id='AI';
+      let labcheck= document.createElement("label");
+      labcheck.innerHTML='Active AI';
+      labcheck.setAttribute('for','AI');
+      divcheck.appendChild(check);
+      divcheck.appendChild(labcheck);
+      checkAI.appendChild(divcheck);
+
+      let opts=document.getElementById("options");
+      opts.innerHTML='Starting Player';
+
+
+      let div1= document.createElement("div");
+      let radio1=document.createElement("input");
+      radio1.type="radio";
+      radio1.id='Player 1';
+      let lab1= document.createElement("label");
+      lab1.innerHTML='Player 1';
+      lab1.setAttribute('for','Player 1');
+      div1.appendChild(radio1);
+      div1.appendChild(lab1);
+      opts.appendChild(div1);
+
+
+      let div2= document.createElement("div");
+      let radio2=document.createElement("input");
+      radio2.type="radio";
+      radio2.id='Player 2';
+      let lab2= document.createElement("label");
+      lab2.innerHTML='Player 2';
+      lab2.setAttribute('for','Player 2');
+      div2.appendChild(radio2);
+      div2.appendChild(lab2);
+      opts.appendChild(div2);
+      
+
+      for (let i=0; i<this.col;i++)
+      {
+      let button1= document.createElement('button');
+      button1.style.width= this.token/2 + this.space + "px";
+      button1.style.height=this.token/2 + this.space + "px";
+      button1.style.margin= this.space/2 + "px";
+      button1.id="btn"+i;
+      document.getElementById("buttons").appendChild(button1);
+      button1.addEventListener('click', () => {
+        console.log("hello");
+        this.createToken(i,5);
+      });}
+      
+      
       /** arc de la table puissance 4 */
-      context.beginPath();
-      context.moveTo(height_tab,height_tab);
-      context.arcTo(0,height_tab,0,0,10);
-      context.arcTo(0,0,height_tab,0,10);
-      context.arcTo(width_tab,0,height_tab,height_tab,10);
-      context.arcTo(width_tab,height_tab,0,height_tab,10);
-      context.fillStyle="blue";
-      context.fill();
-      context.beginPath();
+      this.context.beginPath();
+      this.context.moveTo(this.height_tab,this.height_tab);
+      this.context.arcTo(0,this.height_tab,0,0,10);
+      this.context.arcTo(0,0,this.height_tab,0,10);
+      this.context.arcTo(this.width_tab,0,this.height_tab,this.height_tab,10);
+      this.context.arcTo(this.width_tab,this.height_tab,0,this.height_tab,10);
+      this.context.fillStyle="blue";
+      this.context.fill();
+      this.context.beginPath();
 
 
       /** boucle création de trous jetons */
-      context.globalCompositeOperation = "destination-out";
-      for(let j = 0; j< ligne ; j++){
-        for(let i = 0; i< col ; i++){
-          context.beginPath();
-          context.arc( ((token + space)*i) + (space*2),(height_tab- token/2 - space) - (token+ space)*j,token/2,0,2* Math.PI);
-          context.fillStyle = "white";
-          context.fill();
-          context.closePath();
+      this.context.globalCompositeOperation = "destination-out";
+      for(let j = 0; j< this.ligne ; j++){
+        for(let i = 0; i< this.col ; i++){
+          this.context.beginPath();
+          this.context.arc( ((this.token + this.space)*i) + (this.space*2),(this.height_tab- this.token/2 - this.space) - (this.token+ this.space)*j,this.token/2,0,2* Math.PI);
+          this.context.fillStyle = "white";
+          this.context.fill();
+          this.context.closePath();
         }
       }
+  }
+  
+  createToken(column,row)
+  {
+    //faire une condition pour voir si un élément existe déjà dans la colonne
+    this.canvas = document.getElementById("mycanvas");
+    this.context = this.canvas.getContext("2d");
+    this.context.arc( ((this.token + this.space)*column) + (this.space*2),(this.height_tab- this.token/2 - this.space) - (this.token+ this.space)*row,this.token/2,0,2* Math.PI);
+          this.context.fillStyle = "red";
+          this.context.fill();
+
   }
   
     displayCNF (cnf_value) {

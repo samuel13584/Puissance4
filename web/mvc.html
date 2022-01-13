@@ -8,7 +8,7 @@
 
   <style>
     * {
-      abox-sizing: border-box;
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
@@ -16,48 +16,57 @@
     body {
       background: rgb(241, 236, 236);
       color: rgb(20, 20, 20);
-      display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-    }
+    }   
 
-    .container__0 {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 5px;
-      text-align: center;
-      padding: 10px;
-      width: 500px;
+     #buttons { /* #=id .=class */
+      margin: 20px;
     }
-
-    .container__0 p {
-      padding: 20px;
+    #canvas
+    {
+      margin: 10px
     }
-
-    .container__0 button {
-      background: rgb(3, 218, 197);
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      padding: 5px 10px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+    #title
+    {
+      margin: 10px;
+      font-style: normal;
+      font-size: 25px;
+      font-weight: normal;
+      font-family: 'Courier New', Courier, monospace;
     }
-    
+    #options
+    {
+      float:right;
+      margin-right: 40px;
+      display: grid;
+      
+    }
   </style>
 
 </head>
 <body>
-    
-  <div id="mvc" class="container__0"></div>
-  <canvas id="mycanvas" width="900" height="900"></canvas>
+  <div id="droite">
+    <div id="check"></div>
+<div id="options"></div>
+  </div>
+
+
+<div><div id="title"></div>
+  <div id="buttons"></div>
+  
+  <div id="canvas">
+    <canvas id="mycanvas" width="900" height="900"></canvas>
+  </div>
+</div>
   <script src="../class/model.js"></script>
   <script src="../class/view.js"></script>
   <script src="../class/controller.js"></script>
 
 <script>
 
- const app = new Controller(new Model(), new View('mvc'));
+ const app = new Controller(new Model(), new View());
     
 </script>
 
