@@ -26,7 +26,8 @@
     }
     #canvas
     {
-      margin: 10px
+      margin: 10px;
+      position: relative;
     }
     #title
     {
@@ -53,6 +54,19 @@
       margin-bottom: 10px;
       font-family: 'Times New Roman', Times, serif
     }
+    #mycanvas2
+    {
+      position: absolute;
+    }
+    #mycanvas
+    {
+      position: absolute;
+    }
+    #mycanvas3
+    {
+      position: absolute;
+    }
+
   </style>
 
 </head>
@@ -65,10 +79,15 @@
 
 <div><div id="title"></div>
   <div id="buttons"></div>
-  
+
   <div id="canvas">
+    <canvas id="mycanvas3" width="900" height="900"></canvas>
+    <canvas id="mycanvas2" width="900" height="900"></canvas>
     <canvas id="mycanvas" width="900" height="900"></canvas>
   </div>
+
+  
+
 </div>
   <script src="../class/model.js"></script>
   <script src="../class/view.js"></script>

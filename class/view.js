@@ -9,18 +9,20 @@ class View {
     }
 
     initView () {
-
       this.token=40;
       this.space=20;
       this.col=7;
       this.ligne=6;
       this.width_tab= (this.col*(this.space  + this.token)) + this.space;
       this.height_tab= (this.ligne*(this.space + this.token)) + this.space;
+      this.color="red";
+      this.numero=false;
+
       this.canvas = document.getElementById("mycanvas");
       this.context = this.canvas.getContext("2d");
 
-
-
+      this.canvas2 = document.getElementById("mycanvas2");
+      this.context2 = this.canvas2.getContext("2d");
 
       document.getElementById("title").innerHTML='CONNECT 4';
 
@@ -63,7 +65,6 @@ class View {
       div2.appendChild(radio2);
       div2.appendChild(lab2);
       opts.appendChild(div2);
-      
 
       for (let i=0; i<this.col;i++)
       {
@@ -79,7 +80,11 @@ class View {
       });}
       
       
+      
       /** arc de la table puissance 4 */
+      
+
+
       this.context.beginPath();
       this.context.moveTo(this.height_tab,this.height_tab);
       this.context.arcTo(0,this.height_tab,0,0,10);
@@ -88,7 +93,22 @@ class View {
       this.context.arcTo(this.width_tab,this.height_tab,0,this.height_tab,10);
       this.context.fillStyle="blue";
       this.context.fill();
-      this.context.beginPath();
+      this.context.closePath();
+      
+      
+      this.context2.beginPath();
+      this.context2.moveTo(this.height_tab,this.height_tab);
+      this.context2.arcTo(0,this.height_tab,0,0,10);
+      this.context2.arcTo(0,0,this.height_tab,0,10);
+      this.context2.arcTo(this.width_tab,0,this.height_tab,this.height_tab,10);
+      this.context2.arcTo(this.width_tab,this.height_tab,0,this.height_tab,10);
+      this.context2.fillStyle="white";
+      this.context2.fill();
+      this.context2.closePath();
+
+      
+
+      
 
 
       /** boucle création de trous jetons */
@@ -107,11 +127,15 @@ class View {
   createToken(column,row)
   {
     //faire une condition pour voir si un élément existe déjà dans la colonne
-    this.canvas = document.getElementById("mycanvas");
-    this.context = this.canvas.getContext("2d");
-    this.context.arc( ((this.token + this.space)*column) + (this.space*2),(this.height_tab- this.token/2 - this.space) - (this.token+ this.space)*row,this.token/2,0,2* Math.PI);
-          this.context.fillStyle = "red";
-          this.context.fill();
+    this.canvas2 = document.getElementById("mycanvas2");
+    this.context2 = this.canvas2.getContext("2d");
+    this.context2.globalCompositeOperation = "destination-out";
+    this.context2.beginPath();
+    this.context2.arc( ((this.token + this.space)*column) + (this.space*2),(this.height_tab- this.token/2 - this.space) - (this.token+ this.space)*row,this.token/2,0,2* Math.PI);
+    this.context2.fill();
+    this.context2.closePath();
+    this.numero=!this.numero;
+    this.CouleurJoueur(this.numero);
 
   }
   
@@ -119,6 +143,31 @@ class View {
       if (this.p_tag) {
         this.p_tag.innerHTML = cnf_value;
       }
+    }
+    CouleurJoueur(numero)
+    {
+      if(numero)
+      {
+        this.color= "red";
+      }
+      else
+      {
+        this.color= "yellow";
+      }
+      console.log(numero);
+      console.log(this.color);
+      this.canvas3 = document.getElementById("mycanvas3");
+      this.context3 = this.canvas3.getContext("2d");
+      this.context3.beginPath();
+      this.context3.moveTo(this.height_tab,this.height_tab);
+      this.context3.arcTo(0,this.height_tab,0,0,10);
+      this.context3.arcTo(0,0,this.height_tab,0,10);
+      this.context3.arcTo(this.width_tab,0,this.height_tab,this.height_tab,10);
+      this.context3.arcTo(this.width_tab,this.height_tab,0,this.height_tab,10);
+      this.context3.fillStyle=this.color;
+      this.context3.fill();
+      this.context3.closePath();
+      
     }
     
   }
