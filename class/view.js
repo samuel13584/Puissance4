@@ -17,10 +17,8 @@ class View {
       this.height_tab= (this.ligne*(this.space + this.token)) + this.space;
       this.color="red";
       this.numero=false;
-
       this.canvas = document.getElementById("mycanvas");
       this.context = this.canvas.getContext("2d");
-
       this.canvas2 = document.getElementById("mycanvas2");
       this.context2 = this.canvas2.getContext("2d");
 
@@ -38,11 +36,8 @@ class View {
       divcheck.appendChild(check);
       divcheck.appendChild(labcheck);
       checkAI.appendChild(divcheck);
-
       let opts=document.getElementById("options");
       opts.innerHTML='Starting Player';
-
-
       let div1= document.createElement("div");
       let radio1=document.createElement("input");
       radio1.type="radio";
@@ -53,8 +48,6 @@ class View {
       div1.appendChild(radio1);
       div1.appendChild(lab1);
       opts.appendChild(div1);
-
-
       let div2= document.createElement("div");
       let radio2=document.createElement("input");
       radio2.type="radio";
@@ -75,16 +68,12 @@ class View {
       button1.id="btn"+i;
       document.getElementById("buttons").appendChild(button1);
       button1.addEventListener('click', () => {
-        console.log("hello");
-        this.createToken(i,5);
+        this.numero=!this.numero;
+        this.CouleurJoueur(this.numero);
+        this.createToken(2,2,this.color);
       });}
       
-      
-      
       /** arc de la table puissance 4 */
-      
-
-
       this.context.beginPath();
       this.context.moveTo(this.height_tab,this.height_tab);
       this.context.arcTo(0,this.height_tab,0,0,10);
@@ -95,7 +84,6 @@ class View {
       this.context.fill();
       this.context.closePath();
       
-      
       this.context2.beginPath();
       this.context2.moveTo(this.height_tab,this.height_tab);
       this.context2.arcTo(0,this.height_tab,0,0,10);
@@ -105,11 +93,6 @@ class View {
       this.context2.fillStyle="white";
       this.context2.fill();
       this.context2.closePath();
-
-      
-
-      
-
 
       /** boucle création de trous jetons */
       this.context.globalCompositeOperation = "destination-out";
@@ -123,20 +106,23 @@ class View {
         }
       }
   }
-  
-  createToken(column,row)
+   createToken(column,row,color)
   {
+    console.log("create token");
     //faire une condition pour voir si un élément existe déjà dans la colonne
-    this.canvas2 = document.getElementById("mycanvas2");
-    this.context2 = this.canvas2.getContext("2d");
-    this.context2.globalCompositeOperation = "destination-out";
+    this.context2.globalCompositeOperation = "source-over";
     this.context2.beginPath();
+    this.context2.fillStyle=color;
     this.context2.arc( ((this.token + this.space)*column) + (this.space*2),(this.height_tab- this.token/2 - this.space) - (this.token+ this.space)*row,this.token/2,0,2* Math.PI);
     this.context2.fill();
     this.context2.closePath();
-    this.numero=!this.numero;
-    this.CouleurJoueur(this.numero);
 
+    // this.context2.globalCompositeOperation = "source-over";
+    // this.context2.beginPath();
+    // this.context2.fillStyle="white";
+    // this.context2.arc( ((this.token + this.space)*column) + (this.space*2),(this.height_tab- this.token/2 - this.space) - (this.token+ this.space)*(row-1),this.token/2,0,2* Math.PI);
+    // this.context2.fill();
+    // this.context2.closePath();
   }
   
     displayCNF (cnf_value) {
@@ -144,6 +130,7 @@ class View {
         this.p_tag.innerHTML = cnf_value;
       }
     }
+
     CouleurJoueur(numero)
     {
       if(numero)
@@ -155,19 +142,7 @@ class View {
         this.color= "yellow";
       }
       console.log(numero);
-      console.log(this.color);
-      this.canvas3 = document.getElementById("mycanvas3");
-      this.context3 = this.canvas3.getContext("2d");
-      this.context3.beginPath();
-      this.context3.moveTo(this.height_tab,this.height_tab);
-      this.context3.arcTo(0,this.height_tab,0,0,10);
-      this.context3.arcTo(0,0,this.height_tab,0,10);
-      this.context3.arcTo(this.width_tab,0,this.height_tab,this.height_tab,10);
-      this.context3.arcTo(this.width_tab,this.height_tab,0,this.height_tab,10);
-      this.context3.fillStyle=this.color;
-      this.context3.fill();
-      this.context3.closePath();
       
     }
-    
   }
+
