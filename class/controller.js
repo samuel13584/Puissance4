@@ -15,6 +15,9 @@ class Controller {
 
       this.bindGetCNF = this.bindGetCNF.bind(this);
       this.view.bindGetCNF(this.bindGetCNF);
+
+      this.bindCouleurJoueur = this.bindCouleurJoueur.bind(this);
+        this.view.bindCouleurJoueur(this.bindCouleurJoueur);
     }
     
     bindDisplayCNF (cnf_value) {
@@ -23,5 +26,9 @@ class Controller {
 
     bindGetCNF () {
       this.model.getCNF();
+    }
+    bindCouleurJoueur (numero) {
+      console.log("je passe dans controller couleurjoueur");
+     return this.model.CouleurJoueur(numero);
     }
   }

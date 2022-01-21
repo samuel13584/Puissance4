@@ -8,15 +8,22 @@ class View {
       this.getCNF = callback; // On veut pouvoir demander au Model (depuis le Controller) une nouvelle Chuck Norris Fact.
     }
 
+    bindCouleurJoueur (callback) {
+      console.log("je passe dans view couleurjoueur");
+      this.CouleurJoueur = callback;
+    }
+    
     initView () {
       this.token=40;
       this.space=20;
       this.col=7;
       this.ligne=6;
+      this.rowToken=6;
+      this.numero=false;
+      this.columnToken=7;
       this.width_tab= (this.col*(this.space  + this.token)) + this.space;
       this.height_tab= (this.ligne*(this.space + this.token)) + this.space;
       this.color="red";
-      this.numero=false;
       this.canvas = document.getElementById("mycanvas");
       this.context = this.canvas.getContext("2d");
       this.canvas2 = document.getElementById("mycanvas2");
@@ -58,7 +65,6 @@ class View {
       div2.appendChild(radio2);
       div2.appendChild(lab2);
       opts.appendChild(div2);
-
       for (let i=0; i<this.col;i++)
       {
       let button1= document.createElement('button');
@@ -69,8 +75,9 @@ class View {
       document.getElementById("buttons").appendChild(button1);
       button1.addEventListener('click', () => {
         this.numero=!this.numero;
-        this.CouleurJoueur(this.numero);
-        this.createToken(2,2,this.color);
+        this.color= this.CouleurJoueur(this.numero);
+        //this.CouleurJoueur(this.numero);
+        this.createToken(i,0,this.color);
       });}
       
       /** arc de la table puissance 4 */
@@ -106,43 +113,31 @@ class View {
         }
       }
   }
+
    createToken(column,row,color)
   {
-    console.log("create token");
-    //faire une condition pour voir si un élément existe déjà dans la colonne
+    // faire une condition pour voir si un élément existe déjà dans la colonne
     this.context2.globalCompositeOperation = "source-over";
     this.context2.beginPath();
     this.context2.fillStyle=color;
-    this.context2.arc( ((this.token + this.space)*column) + (this.space*2),(this.height_tab- this.token/2 - this.space) - (this.token+ this.space)*row,this.token/2,0,2* Math.PI);
+    this.context2.arc(((this.token + this.space)*column) + (this.space*2),(this.height_tab- this.token/2 - this.space) - (this.token+ this.space)*row,this.token/2,0,2* Math.PI);
     this.context2.fill();
     this.context2.closePath();
 
     // this.context2.globalCompositeOperation = "source-over";
     // this.context2.beginPath();
     // this.context2.fillStyle="white";
-    // this.context2.arc( ((this.token + this.space)*column) + (this.space*2),(this.height_tab- this.token/2 - this.space) - (this.token+ this.space)*(row-1),this.token/2,0,2* Math.PI);
+    // this.context2.arc( this.x,this.y+(this.token +this.space),this.token/2,0,2* Math.PI);
     // this.context2.fill();
     // this.context2.closePath();
   }
-  
+
     displayCNF (cnf_value) {
       if (this.p_tag) {
         this.p_tag.innerHTML = cnf_value;
       }
     }
 
-    CouleurJoueur(numero)
-    {
-      if(numero)
-      {
-        this.color= "red";
-      }
-      else
-      {
-        this.color= "yellow";
-      }
-      console.log(numero);
-      
-    }
+    
   }
 
