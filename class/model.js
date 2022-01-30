@@ -1,8 +1,8 @@
 class Model {
     constructor() {
       this.numero=false;
-      this.width = 7
-      this.height = 6
+      this.width = 7;
+      this.height = 6;
       this.color="red";
       this.CreateMatrix();
       
@@ -12,13 +12,9 @@ class Model {
       this.CouleurJoueur=callback;
      }
 
-    bindAddToken(callback)
+    bindGetMatrix (callback)
     {
-      this.AddToken=callback;
-    }
-    bindRefresh(callback)
-    {
-      this.Refresh()=callback;
+      this.GetMatrix=callback;
     }
 
     CreateMatrix(){
@@ -30,38 +26,44 @@ class Model {
               }
               this.tableau[colonne] = column;
           }
+          
     }
 
 
-    AddToken(column,row)
+    AddToken(column)
     {
-
+      let row=0;
+      console.log(this.color);
       if(this.color=="red")
       {
-        while (this.tableau[column][row]!=null|| row<this.height-1 )
+        while (this.tableau[column][row]==null && row<this.height )
         {
-          this.tableau[column][row]==1;
+          console.log(this.tableau[column][row]);
+          this.tableau[column][row]=1;
+          console.log(this.tableau);
           row++;
         }
       }
       if(this.color=="yellow")
       {
-        while (this.tableau[column][row]!=null || row<this.height-1 )
+        while (this.tableau[column][row]==null && row<this.height )
         {
-          this.tableau[column][row]==2;
+          this.tableau[column][row]=2;
           row++;
         }
       }
-      this.Refresh();
+      this.GetMatrix(this.tableau);
     }
 
     ClearMatrix()
     {
+
       for(let i=0;i<this.width;i++){
         for(let j=0;j<this.height;j++){
-          this.tableau[column][row]==0; 
+          this.tableau[i][j]==null; 
         }
       }
+      this.GetMatrix(this.tableau);
     }
 
     CouleurJoueur(numero)

@@ -3,11 +3,23 @@ class View {
       this.initView();
       this.CreateButton();
       this.CreateTable();
+      this.CreateButtonClear();
     }
 
     bindCouleurJoueur (callback) {
-      console.log("je passe dans view couleur joueur");
+      
       this.CouleurJoueur = callback;
+    }
+    bindgetColumn(callback)
+    {
+      console.log("je passe dans view getcolumn");
+      this.AddToken=callback;
+    }
+
+    bindGetClear(callback)
+    {
+      console.log("je passe dans view clear");
+      this.ClearMatrix=callback;
     }
     
     initView () {
@@ -16,6 +28,7 @@ class View {
       this.col=7;
       this.ligne=6;
       this.rowToken=6;
+      this.clear=0;
 
       this.numero=false;
       this.columnToken=7;
@@ -64,7 +77,7 @@ class View {
       opts.appendChild(div2);
   }
 
-   createToken(matrix)
+   createToken(column,row,color)
   {
     // faire une condition pour voir si un élément existe déjà dans la colonne
     
@@ -91,11 +104,28 @@ class View {
       // recupérer la grille à chaque fois qu'on apppuie
       this.numero=!this.numero;
       this.color= this.CouleurJoueur(this.numero);
-      this.createToken(i,0,this.color);
+      this.AddToken(i);
     });
   }
 }
-
+CreateButtonClear(){
+  let checkclear=document.getElementById("clear");
+  let divclear= document.createElement("div");
+  let clear=document.createElement("button");
+  clear.type="button";
+  clear.id='clean';
+  clear.value="Clear";
+  let labclear= document.createElement("label");                                                                     
+  labclear.innerHTML='Clear';
+  labclear.setAttribute('for','clean');
+  divclear.appendChild(clear);
+  divclear.appendChild(labclear);
+  checkclear.appendChild(divclear);
+  clear.addEventListener('click', () => {
+  this.ClearMatrix();
+  this.clear=1;
+  });
+}
 
 CreateTable(){
   this.context.beginPath();
@@ -127,8 +157,45 @@ CreateTable(){
       this.context.fillStyle = "white";
       this.context.fill();
       this.context.closePath();
+    }
   }
 }
+
+GetMatrix(matrix)
+{
+  console.log(matrix);
+  if(this.clear==1)
+  {
+    for(let i=0;i<7;i++)
+  {
+    for (let j=0;j<6;j++)
+    {
+      this.createToken(i,j,"white");
+      j++
+    }
+    i++;
+  }
+  this.clear=0;
+}
+  else{
+  for(let i=0;i<7;i++)
+    {
+      for (let j=0;j<6;j++)
+      {
+        if(matrix[i][j]==1)
+         {
+           this.createToken(i,j,"red");
+           j++;
+         }
+         if(matrix[i][j]==2)
+         {
+           this.createToken(i,j,"yellow");
+           j++;
+         }
+      }
+    }
+  }
+  
 }
 }
 
