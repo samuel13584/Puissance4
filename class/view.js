@@ -1,15 +1,12 @@
 class View {
     constructor() {
       this.initView();
-    }
-
-    // Binding.
-    bindGetCNF (callback) {
-      this.getCNF = callback; // On veut pouvoir demander au Model (depuis le Controller) une nouvelle Chuck Norris Fact.
+      this.CreateButton();
+      this.CreateTable();
     }
 
     bindCouleurJoueur (callback) {
-      console.log("je passe dans view couleurjoueur");
+      console.log("je passe dans view couleur joueur");
       this.CouleurJoueur = callback;
     }
     
@@ -19,11 +16,11 @@ class View {
       this.col=7;
       this.ligne=6;
       this.rowToken=6;
+
       this.numero=false;
       this.columnToken=7;
       this.width_tab= (this.col*(this.space  + this.token)) + this.space;
       this.height_tab= (this.ligne*(this.space + this.token)) + this.space;
-      this.color="red";
       this.canvas = document.getElementById("mycanvas");
       this.context = this.canvas.getContext("2d");
       this.canvas2 = document.getElementById("mycanvas2");
@@ -31,13 +28,13 @@ class View {
 
       document.getElementById("title").innerHTML='CONNECT 4';
 
-
       let checkAI=document.getElementById("check");
       let divcheck= document.createElement("div");
       let check=document.createElement("input");
       check.type="checkbox";
       check.id='AI';
-      let labcheck= document.createElement("label");
+      let labcheck= document.createElement("label");                                                                     
+
       labcheck.innerHTML='Active AI';
       labcheck.setAttribute('for','AI');
       divcheck.appendChild(check);
@@ -65,79 +62,76 @@ class View {
       div2.appendChild(radio2);
       div2.appendChild(lab2);
       opts.appendChild(div2);
-      for (let i=0; i<this.col;i++)
-      {
-      let button1= document.createElement('button');
-      button1.style.width= this.token/2 + this.space + "px";
-      button1.style.height=this.token/2 + this.space + "px";
-      button1.style.margin= this.space/2 + "px";
-      button1.id="btn"+i;
-      document.getElementById("buttons").appendChild(button1);
-      button1.addEventListener('click', () => {
-        this.numero=!this.numero;
-        this.color= this.CouleurJoueur(this.numero);
-        //this.CouleurJoueur(this.numero);
-        this.createToken(i,0,this.color);
-      });}
-      
-      /** arc de la table puissance 4 */
-      this.context.beginPath();
-      this.context.moveTo(this.height_tab,this.height_tab);
-      this.context.arcTo(0,this.height_tab,0,0,10);
-      this.context.arcTo(0,0,this.height_tab,0,10);
-      this.context.arcTo(this.width_tab,0,this.height_tab,this.height_tab,10);
-      this.context.arcTo(this.width_tab,this.height_tab,0,this.height_tab,10);
-      this.context.fillStyle="blue";
-      this.context.fill();
-      this.context.closePath();
-      
-      this.context2.beginPath();
-      this.context2.moveTo(this.height_tab,this.height_tab);
-      this.context2.arcTo(0,this.height_tab,0,0,10);
-      this.context2.arcTo(0,0,this.height_tab,0,10);
-      this.context2.arcTo(this.width_tab,0,this.height_tab,this.height_tab,10);
-      this.context2.arcTo(this.width_tab,this.height_tab,0,this.height_tab,10);
-      this.context2.fillStyle="white";
-      this.context2.fill();
-      this.context2.closePath();
-
-      /** boucle création de trous jetons */
-      this.context.globalCompositeOperation = "destination-out";
-      for(let j = 0; j< this.ligne ; j++){
-        for(let i = 0; i< this.col ; i++){
-          this.context.beginPath();
-          this.context.arc( ((this.token + this.space)*i) + (this.space*2),(this.height_tab- this.token/2 - this.space) - (this.token+ this.space)*j,this.token/2,0,2* Math.PI);
-          this.context.fillStyle = "white";
-          this.context.fill();
-          this.context.closePath();
-        }
-      }
   }
 
-   createToken(column,row,color)
+   createToken(matrix)
   {
     // faire une condition pour voir si un élément existe déjà dans la colonne
+    
+    
     this.context2.globalCompositeOperation = "source-over";
     this.context2.beginPath();
     this.context2.fillStyle=color;
     this.context2.arc(((this.token + this.space)*column) + (this.space*2),(this.height_tab- this.token/2 - this.space) - (this.token+ this.space)*row,this.token/2,0,2* Math.PI);
     this.context2.fill();
     this.context2.closePath();
-
-    // this.context2.globalCompositeOperation = "source-over";
-    // this.context2.beginPath();
-    // this.context2.fillStyle="white";
-    // this.context2.arc( this.x,this.y+(this.token +this.space),this.token/2,0,2* Math.PI);
-    // this.context2.fill();
-    // this.context2.closePath();
   }
 
-    displayCNF (cnf_value) {
-      if (this.p_tag) {
-        this.p_tag.innerHTML = cnf_value;
-      }
-    }
-
-    
+  
+  CreateButton(){
+    for (let i=0; i<this.col;i++)
+    {
+    let button1= document.createElement('button');
+    button1.style.width= this.token/2 + this.space + "px";
+    button1.style.height=this.token/2 + this.space + "px";
+    button1.style.margin= this.space/2 + "px";
+    button1.id="btn"+i;
+    document.getElementById("buttons").appendChild(button1);
+    button1.addEventListener('click', () => {
+      // recupérer la grille à chaque fois qu'on apppuie
+      this.numero=!this.numero;
+      this.color= this.CouleurJoueur(this.numero);
+      this.createToken(i,0,this.color);
+    });
   }
+}
+
+
+CreateTable(){
+  this.context.beginPath();
+  this.context.moveTo(this.height_tab,this.height_tab);
+  this.context.arcTo(0,this.height_tab,0,0,10);
+  this.context.arcTo(0,0,this.height_tab,0,10);
+  this.context.arcTo(this.width_tab,0,this.height_tab,this.height_tab,10);
+  this.context.arcTo(this.width_tab,this.height_tab,0,this.height_tab,10);
+  this.context.fillStyle="blue";
+  this.context.fill();
+  this.context.closePath();
+
+  this.context2.beginPath();
+  this.context2.moveTo(this.height_tab,this.height_tab);
+  this.context2.arcTo(0,this.height_tab,0,0,10);
+  this.context2.arcTo(0,0,this.height_tab,0,10);
+  this.context2.arcTo(this.width_tab,0,this.height_tab,this.height_tab,10);
+  this.context2.arcTo(this.width_tab,this.height_tab,0,this.height_tab,10);
+  this.context2.fillStyle="white";
+  this.context2.fill();
+  this.context2.closePath();
+
+  /** boucle création de trous jetons */
+  this.context.globalCompositeOperation = "destination-out";
+  for(let j = 0; j< this.ligne ; j++){
+    for(let i = 0; i< this.col ; i++){
+      this.context.beginPath();
+      this.context.arc( ((this.token + this.space)*i) + (this.space*2),(this.height_tab- this.token/2 - this.space) - (this.token+ this.space)*j,this.token/2,0,2* Math.PI);
+      this.context.fillStyle = "white";
+      this.context.fill();
+      this.context.closePath();
+  }
+}
+}
+
+  
+
+}
 

@@ -1,56 +1,80 @@
 class Model {
     constructor() {
-      this.matrix=[[]];
       this.numero=false;
-    }
-  
-    // Binding.
-    bindDisplayCNF (callback) {
-      // Définition d'une nouvelle propriété pouvant être utilisée à partir d'une instance de Model.
-      this.DisplayCNF = callback; // On veut pouvoir actualiser la View (depuis le Controller) quand nous récupérons les données.
-    }
+      this.width = 7
+      this.height = 6
+      this.color="red";
+      this.CreateMatrix();
+      
+  }
+    
     bindCouleurJoueur (callback) {
       this.CouleurJoueur=callback;
      }
 
-    getCNF () {
-      fetch(this.URL)
-        .then(response => response.json())
-        .then(response => {
-          let text = 'No Chuck Norris Fact found.';
-          if (response.value) {
-            text = response.value;
-          }
-          this.DisplayCNF(text);
-        })
-        .catch(error => {
-          console.log("Error : " + error);
-        });
+    bindAddToken(callback)
+    {
+      this.AddToken=callback;
     }
-    // ImplementMatrix(column,row)
-    // { 
+    bindRefresh(callback)
+    {
+      this.Refresh()=callback;
+    }
 
-    //   if(this.matrix[row][column]==0)
-    //   {
-    //     this.matrix[row][column]=1;
-    //   }
-    //   else
-    //   {
-    //     this.ImplementMatrix(column,row-1);
-    //   }
-      
-    // }
+    CreateMatrix(){
+      this.tableau = new Array(this.width);
+          for (let colonne = 0; colonne < this.width; colonne++) {
+              let column = new Array(this.height);
+              for (let ligne = 0; ligne < this.height; ligne++) {
+                column[ligne] = null;
+              }
+              this.tableau[colonne] = column;
+          }
+    }
+
+
+    AddToken(column,row)
+    {
+
+      if(this.color=="red")
+      {
+        while (this.tableau[column][row]!=null|| row<this.height-1 )
+        {
+          this.tableau[column][row]==1;
+          row++;
+        }
+      }
+      if(this.color=="yellow")
+      {
+        while (this.tableau[column][row]!=null || row<this.height-1 )
+        {
+          this.tableau[column][row]==2;
+          row++;
+        }
+      }
+      this.Refresh();
+    }
+
+    ClearMatrix()
+    {
+      for(let i=0;i<this.width;i++){
+        for(let j=0;j<this.height;j++){
+          this.tableau[column][row]==0; 
+        }
+      }
+    }
 
     CouleurJoueur(numero)
     {
-    // console.log("je passe dans model couleurjoueur" + " " + this.matrix[0][0]);
       if(numero)
       {
-        return "red";
+        this.color="red";
+        return this.color;
       }
       else
       {
-        return "yellow";
+        this.color="yellow";
+        return this.color;
       }
     }
-  }
+}
